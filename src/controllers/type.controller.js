@@ -1,0 +1,46 @@
+/**
+ * Type Controller
+ * Copyright (c) 2025 Basirul Akhlak Borno - https://github.com/basirulakhlakborno
+ * ⚠️ Educational use only. Respect copyright laws.
+ */
+
+const { BaseController } = require('./base.controller');
+const { logger } = require('../utils/logger');
+const { BadRequestError } = require('../utils/errors');
+const { TypeExtractor } = require('../extractors/type.extractor');
+
+class TypeController extends BaseController {
+  async getType(c) {
+    return await this.execute(c, async () => {
+      try {
+        const type = c.req.param('type');
+        const pathType = c.req.param('pathType') || 'category'; // 'category' or 'letter'
+        const { page = 1 } = c.req.query();
+
+        if (!type || type.trim() === '') {
+          throw new BadRequestError('Type parameter is required');
+        }
+
+        // Validate page
+        const pageNum = parseInt(page);
+        if (isNaN(pageNum) || pageNum < 1) {
+          throw new BadRequestError('Page must be a positive integer');
+        }
+
+        const typeExtractor = new TypeExtractor();
+        const typeData = await typeExtractor.extractFromFile(null, type, pageNum, pathType);
+
+        res.status(200).json({
+          currentPage: typeData.pagination.currentPage,
+          totalPages: typeData.pagination.totalPages,
+          items: typeData.items,
+        });
+      } catch (error) {
+        logger.error('Error extracting type page data', error);
+        throw new BadRequestError('Failed to extract type page data');
+      }
+    });
+  }
+}
+
+module.exports = { TypeController };
