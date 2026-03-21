@@ -1,15 +1,17 @@
 
+const env = typeof process !== 'undefined' && process.env ? process.env : {};
+
 const config = {
-  port: parseInt(process.env.PORT || '3000', 10),
-  nodeEnv: process.env.NODE_ENV || 'development',
-  isDevelopment: process.env.NODE_ENV !== 'production',
-  isProduction: process.env.NODE_ENV === 'production',
+  port: parseInt(env.PORT || '3000', 10),
+  nodeEnv: env.NODE_ENV || 'production',
+  isDevelopment: env.NODE_ENV === 'development',
+  isProduction: env.NODE_ENV !== 'development',
   cors: {
-    origin: process.env.CORS_ORIGIN || '*',
+    origin: env.CORS_ORIGIN || '*',
     credentials: false,
   },
   api: {
-    baseUrl: process.env.API_BASE_URL || 'http://localhost:3000',
+    baseUrl: env.API_BASE_URL || 'http://localhost:3000',
     timeout: 30000,
   },
 };
