@@ -1,7 +1,6 @@
 const { Hono } = require('hono');
 const { cors } = require('hono/cors');
 const { secureHeaders } = require('hono/secure-headers');
-const { compress } = require('hono/compress');
 const { config } = require('./config');
 const { errorMiddleware } = require('./middleware/error.middleware');
 const apiRoutes = require('./routes');
@@ -18,8 +17,6 @@ function setupRouter(app) {
     allowHeaders: ['Content-Type', 'Authorization'],
   }));
 
-  // Compression middleware
-  app.use('*', compress());
 
   // Mount API routes
   app.route('/api', apiRoutes);
