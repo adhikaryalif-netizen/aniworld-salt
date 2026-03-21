@@ -22,7 +22,7 @@ class DetailsController extends BaseController {
         const detailsExtractor = new DetailsExtractor();
         const detailsData = await detailsExtractor.extractFromUrl(id);
 
-        res.status(200).json(detailsData);
+        return c.json(detailsData);
       } catch (error) {
         logger.error('Error extracting details data', error);
         throw new BadRequestError(`Failed to extract details data: ${error.message}`);

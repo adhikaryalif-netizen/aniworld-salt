@@ -23,7 +23,7 @@ class EpisodesController extends BaseController {
           throw new BadRequestError('Season parameter is required');
         }
 
-        const seasonNum = parseInt(season, 10);
+        const seasonNum = parseInt(season.toString().replace(/\D/g, ''), 10) || parseInt(season, 10);
         if (isNaN(seasonNum) || seasonNum < 1) {
           throw new BadRequestError('Season must be a positive integer');
         }
@@ -31,7 +31,7 @@ class EpisodesController extends BaseController {
         const episodesExtractor = new EpisodesExtractor();
         const result = await episodesExtractor.extractFromAjax(id, seasonNum);
 
-        res.status(200).json({
+        return c.json({
           id: id,
           postId: result.postId,
           season: seasonNum,

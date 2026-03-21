@@ -30,7 +30,7 @@ class SearchController extends BaseController {
           results = await searchExtractor.search(suggestion.trim());
         }
 
-        res.status(200).json(results);
+        return c.json(results);
       } catch (error) {
         logger.error('Error performing search', error);
         throw new BadRequestError('Failed to perform search');

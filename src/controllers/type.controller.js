@@ -30,7 +30,7 @@ class TypeController extends BaseController {
         const typeExtractor = new TypeExtractor();
         const typeData = await typeExtractor.extractFromFile(null, type, pageNum, pathType);
 
-        res.status(200).json({
+        return c.json({
           currentPage: typeData.pagination.currentPage,
           totalPages: typeData.pagination.totalPages,
           items: typeData.items,

@@ -22,7 +22,7 @@ class EmbedController extends BaseController {
         const embedExtractor = new EmbedExtractor();
         const embedData = await embedExtractor.extractFromUrl(id);
 
-        res.status(200).json(embedData);
+        return c.json(embedData);
       } catch (error) {
         logger.error('Error extracting embed data', error);
         throw new BadRequestError(`Failed to extract embed data: ${error.message}`);
